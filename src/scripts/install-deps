@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# taken from: https://www.makeswift.com/blog/accessing-your-local-nextjs-dev-server-using-https
+
+set -exo pipefail
+
+mkcert --version || brew install mkcert nss # nss: if you use Firefox

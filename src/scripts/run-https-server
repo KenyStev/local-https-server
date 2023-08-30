@@ -1,0 +1,65 @@
+#!/bin/bash
+
+# taken from: https://www.makeswift.com/blog/accessing-your-local-nextjs-dev-server-using-https
+
+set -exo pipefail
+
+PARAMS=""
+
+COMMANDS_FLAGS="
+Help:
+    In order to pass arguments use '--' after the command like: npm run script-name -- -f
+
+  -p|--port:                    Pass a port to run the server on (default: 3001)
+  -pp|--proxy-port:             Pass a port to the trafic to locally (default: 3000)
+  -c|--cert:                    Pass a path to the cert file (default: ./.certs/localhost.pem)
+  -k|--key:                     Pass a path to the key file (default: ./.certs/localhost-key.pem)
+  -h|--help:                    Lists help options
+"
+
+# VARS
+FILE=""
+
+while (( "$#" )); do
+  case "$1" in
+    -pp|--proxy-port)
+      PROXY_PORT=$2
+      shift
+      ;;
+    -p|--port)
+      PORT=$2
+      shift
+      ;;
+    -c|--cert)
+      CERT=$2
+      shift
+      ;;
+    -k|--key)
+      KEY=$2
+      shift
+      ;;
+    -h|--help)
+        echo "$COMMANDS_FLAGS"
+        exit 0
+      ;;
+    -*|--*=) # unsupported flags
+      echo "Error: Unsupported flag $1" >&2
+      exit 1
+      ;;
+    *) # preserve positional arguments
+      PARAMS="$PARAMS $1"
+      shift
+      ;;
+  esac
+done
+
+# set positional arguments in their proper place
+eval set -- "$PARAMS"
+
+npx local-ssl-proxy \
+	--key $CERT \
+	--cert $KEY \
+  --source $PORT \
+  --target $PROXY_PORT
+
+wait $!

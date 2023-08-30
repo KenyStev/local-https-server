@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# taken from: https://www.makeswift.com/blog/accessing-your-local-nextjs-dev-server-using-https
+
+set -exo pipefail
+
+mkcert -cert-file ./.certs/localhost.pem -key-file ./.certs/localhost-key.pem localhost bs-local.com

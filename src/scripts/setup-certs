@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# taken from: https://www.makeswift.com/blog/accessing-your-local-nextjs-dev-server-using-https
+
+set -exo pipefail
+
+# Generate a self-signed certificate
+if ! cat ./.certs/mkcert.log | grep 'The local CA is already installed in the system trust store!'; then
+  echo "Generating self-signed certificate..."
+  mkdir -p ./.certs
+  mkcert -install 2>&1 | tee ./.certs/mkcert.log
+fi
+
+mkcert -cert-file ./.certs/localhost.pem -key-file ./.certs/localhost-key.pem localhost bs-local.com

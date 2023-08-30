@@ -1,0 +1,34 @@
+{
+  "name": "@kenystev/local-https-server",
+  "version": "0.0.1",
+  "description": "It runs a local https server with authorized certs",
+  "main": "bin/local-https-server.js",
+  "scripts": {
+    "start": "local-https-server",
+    "postinstall": "./bin/local-https-server.js install-deps && ./bin/local-https-server.js setup-certs && echo 'local-https-server installed successfully!' && echo 'Please add .certs to your .gitignore file'"
+  },
+  "keywords": [
+    "cli",
+    "local-https-server"
+  ],
+  "bin": {
+    "local-https-server": "./bin/local-https-server.js"
+  },
+  "author": "Kevin J. Estevez",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KenyStev/local-https-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/KenyStev/local-https-server/issues"
+  },
+  "homepage": "https://github.com/KenyStev/local-https-server#readme",
+  "devDependencies": {
+    "local-https-server": "file:./kenystev-local-https-server-0.0.1.tgz"
+  },
+  "dependencies": {
+    "commander": "^11.0.0",
+    "cross-env": "^7.0.3"
+  }
+}
