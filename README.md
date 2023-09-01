@@ -23,10 +23,10 @@ local-https-server start -p 3005
 local-https-server start -pp 3005
 
 # override the default certs' key to provide some custom key
-local-https-server start -k <path/to/file>
+local-https-server start -k "<path/to/file>"
 
 # override the default certs key to provide some custom certs
-local-https-server start -c <path/to/file>
+local-https-server start -c "<path/to/file>"
 ```
 
 **Note** Make sure to add the `.certs` directory to your `.gitignore` file in order to not expose your cerdentials
