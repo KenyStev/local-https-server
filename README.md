@@ -12,7 +12,7 @@ npm install --save-dev @kenystev/local-https-server
 
 ## Usage
 
-```python
+```bash
 # run the server with default ports and auto-generated certs
 local-https-server start
 
@@ -27,6 +27,20 @@ local-https-server start -k <path/to/file>
 
 # override the default certs key to provide some custom certs
 local-https-server start -c <path/to/file>
+```
+
+**Note** Make sure to add the `.certs` directory to your `.gitignore` file in order to not expose your cerdentials
+
+## Utility commands
+
+by default after installation, local-https-server automatically runs the pre-required commands to install deps and setup the certs, but if anything happens or accidentally you have deleted the `.certs` directory created after installation then you can run independently the right commands:
+
+```bash
+# Install needed dependencies to generate the certifications
+local-https-server install-deps
+
+# Generate the valid certifications to run HTTPS server and put them in .certs directory
+local-https-server setup-certs
 ```
 
 ## Contributing
