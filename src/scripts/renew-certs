@@ -4,4 +4,38 @@
 
 set -exo pipefail
 
-mkcert -cert-file ./.certs/localhost.pem -key-file ./.certs/localhost-key.pem localhost bs-local.com
+IP=""
+
+while (( "$#" )); do
+  case "$1" in
+    -i|--ip)
+      IP="${2:-}"
+      if [[ -z "$IP" ]]; then
+        echo "Error: --ip requires an IP address" >&2
+        exit 1
+      fi
+      shift 2
+      ;;
+    -h|--help)
+      echo "Usage: renew-certs [-i <ip>]"
+      echo "  -i|--ip: LAN IP to include in the certificate alongside localhost"
+      exit 0
+      ;;
+    *)
+      echo "Error: Unsupported argument $1" >&2
+      exit 1
+      ;;
+  esac
+done
+
+if [[ -n "$IP" ]] && ! node -e 'const {isIP}=require("node:net"); process.exit(isIP(process.argv[1]) ? 0 : 1)' "$IP"; then
+  echo "Error: Invalid IP address: $IP" >&2
+  exit 1
+fi
+
+CERT_NAMES=(localhost bs-local.com)
+if [[ -n "$IP" ]]; then
+  CERT_NAMES+=("$IP")
+fi
+
+mkcert -cert-file ./.certs/localhost.pem -key-file ./.certs/localhost-key.pem "${CERT_NAMES[@]}"
